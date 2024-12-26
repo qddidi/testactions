@@ -1,4 +1,4 @@
-name: Deploy Script to Remote Server
+name: TEST SSH
 
 on:
   push:
@@ -20,4 +20,4 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            sudo mkdir ccc
+            echo "ssh 连接成功"
