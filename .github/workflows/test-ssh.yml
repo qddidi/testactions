@@ -1,4 +1,4 @@
-name: Execute Release Shell Script on Remote Server
+name: Deploy Script to Remote Server
 
 on:
   push:
@@ -11,16 +11,13 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set execute permission
-        run: chmod +x deploy.sh
+        uses: actions/checkout@v2 # 检出代码，包括 deploy.sh 文件
 
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.5.3
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }} # 从 GitHub Secrets 中获取私钥
 
-      - name: Execute script on remote server
+      - name: Execute deploy.sh on remote server
         run: |
-          ssh -v -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} 'bash -s' < deploy.sh
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} 'chmod +x deploy.sh && bash -s' < deploy.sh
